@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Счётчик кликов</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Счётчик кликов</h1>
+    <div class="subtitle"></div>
+
+    <div id="count" class="counter">—</div>
+
+    <div class="buttons">
+        <button class="btn-inc" onclick="increment()">Клик</button>
+        <button class="btn-reset" onclick="reset()">Сброс</button>
+    </div>
+
+    <div class="info">
+    </div>
+</div>
+
+<script>
+    async function loadCount() {
+        const res = await fetch('/api/counter');
+        const data = await res.json();
+        document.getElementById('count').innerText = data.count;
+    }
+
+    async function increment() {
+        const res = await fetch('/api/counter/increment', {
+            method: 'POST'
+        });
+        const data = await res.json();
+        document.getElementById('count').innerText = data.count;
+    }
+
+    async function reset() {
+        const res = await fetch('/api/counter/reset', {
+            method: 'DELETE'
+        });
+        const data = await res.json();
+        document.getElementById('count').innerText = data.count;
+    }
+
+
+    loadCount();
+</script>
+</body>
+</html>
